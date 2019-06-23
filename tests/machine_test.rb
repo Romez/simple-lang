@@ -1,7 +1,5 @@
 require "test/unit"
 require_relative "../machine"
-require_relative "../multiply"
-require_relative "../number"
 
 class TestMachine < Test::Unit::TestCase
   def test_simple
@@ -21,11 +19,19 @@ class TestMachine < Test::Unit::TestCase
   end
 
   def test_varaible
-    expr = Add.new( Variable.new(:x), Variable.new(:y))
+    expr = Add.new(Variable.new(:x), Variable.new(:y))
+    env = { x: Number.new(2), y: Number.new(3) }
 
-    assert_equal("7", Machine.new(expr, {
-      x: Number.new(5),
-      y: Number.new(2)
-    }).run.to_s)
+    assert_equal("5", Machine.new(expr, env).run.to_s)
+  end
+
+  def test_while
+    expr = While.new(
+      LessThan.new(Variable.new(:x), Number.new(5)),
+      Assign.new(:x, Multiply.new(Variable.new(:x), Number.new(3)))
+    )
+    env = { x: Number.new(1) }
+
+    assert_equal("9", Machine.new(expr, env).run.to_s)
   end
 end
