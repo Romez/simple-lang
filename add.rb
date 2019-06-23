@@ -14,7 +14,9 @@ class Add < Struct.new(:left, :right)
   def reduce
     if left.reducible?
       Add.new(left.reduce, right)
-      elseif right.reducible?
+    end
+
+    if right.reducible?
       Add.new(left, right.reduce)
     else
       Number.new(left.value + right.value)
