@@ -19,4 +19,13 @@ class TestMachine < Test::Unit::TestCase
 
     assert_equal("14", Machine.new(expr).run.to_s)
   end
+
+  def test_varaible
+    expr = Add.new( Variable.new(:x), Variable.new(:y))
+
+    assert_equal("7", Machine.new(expr, {
+      x: Number.new(5),
+      y: Number.new(2)
+    }).run.to_s)
+  end
 end

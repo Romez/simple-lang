@@ -1,10 +1,11 @@
 require "./number"
 require "./add"
 require "./multiply"
+require "./variable"
 
-class Machine < Struct.new(:expr)
+class Machine < Struct.new(:expr, :env)
   def step
-    self.expr = expr.reduce
+    self.expr = expr.reduce(env)
   end
 
   def run
